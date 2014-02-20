@@ -80,6 +80,7 @@ class solve(object):
         data = web.data()
         #print data
         b = so.board(data)
+        web.header('Content-Type', 'text/plain')
         if b.solve():
             return b.dump()
         return "Sorry, No Solution Found"
@@ -89,6 +90,7 @@ class hint(object):
         data = web.data()
         b = so.board(data)
         cell = b.hint()
+        web.header('Content-Type', 'text/plain')
         if cell:
             return self.reply("Try %d at row %d and column %d" % (cell.val, 
                                                                   cell.row +1, 
