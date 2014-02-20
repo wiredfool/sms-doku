@@ -1,7 +1,6 @@
 import web
 import cgi
 import so
-import twilio.rest
 
 from config import *
 
@@ -73,12 +72,9 @@ hint
 </pre>
 """ % PHONE_NUM
 
-client = twilio.rest.TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
-
 class solve(object):
     def POST(self):
         data = web.data()
-        #print data
         b = so.board(data)
         web.header('Content-Type', 'text/plain')
         if b.solve():
@@ -100,17 +96,12 @@ class hint(object):
 
 class sms(object):
     
-    def reply_old(self, to, body):
-        msg = client.messages.create(from_=PHONE_NUM, to=to, body=body)
-        print "sent message: %s" % msg.sid
-
     def reply(self, body):
         web.header('Content-Type', 'text/xml')
         return """<?xml version="1.0" encoding="UTF-8" ?>
 <Response>
     <Message>%s</Message>
 </Response>""" % cgi.escape(body)
-
 
     def help(self):
         return self.reply("""Text for a solution or a hint:
@@ -141,7 +132,6 @@ Dots or spaces for unknowns""")
                                                                   cell.col +1))
         return self.reply("Sorry, didn't find a solution")
                               
-
     def POST(self):
         try:
             data = web.input()
