@@ -8,8 +8,8 @@ from config import *
 urls = (
     '/', 'ping', 
     '/solve', 'solve',
-    '/solve_sms', 'solve_sms',
-#    '/hint', 'hint'
+    '/sms', 'sms',
+    '/hint', 'hint'
 )
 
 app = web.application(urls, globals())
@@ -57,17 +57,28 @@ or hint
 
 client = twilio.rest.TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
 
-class solve (object):
+class solve(object):
     def POST(self):
         data = web.data()
         #print data
         b = so.board(data)
-        if b.solve(10):
+        if b.solve():
             return b.dump()
-        return "Sorry No Solution Found"
+        return "Sorry, No Solution Found"
+
+class hint(object):
+    def POST(self): 
+        data = web.data()
+        b = so.board(data)
+        cell = b.hint()
+        if cell:
+            return self.reply("Try %d at row %d and column %d" % (cell.val, 
+                                                                  cell.row +1, 
+                                                                  cell.col +1))
+        return "Sorry, No Solution Found"
 
 
-class solve_sms(object):
+class sms(object):
     
     def reply_old(self, to, body):
         msg = client.messages.create(from_=PHONE_NUM, to=to, body=body)
@@ -93,17 +104,23 @@ solve|hint
 .57.2.46.
 ..3...7..
 .825.439.
-Dots or spaces for unknowns, 
-new line optional""")
+Dots or spaces for unknowns""")
 
     def solve(self, data):
         b = so.board(data)
-        if b.solve(10):
+        if b.solve():
             return self.reply("\n"+b.dump())
         return self.reply("Sorry, no solution found")
 
-    def hint(self): 
-        pass
+    def hint(self, data): 
+        b = so.board(data)
+        cell = b.hint()
+        if cell:
+            return self.reply("Try %d at row %d and column %d" % (cell.val, 
+                                                                  cell.row +1, 
+                                                                  cell.col +1))
+        return self.reply("Sorry, didn't find a solution")
+                              
 
     def POST(self):
         try:

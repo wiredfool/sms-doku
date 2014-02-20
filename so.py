@@ -85,6 +85,7 @@ class board(object):
         self.squares = []
         self.open = []
         self.next = []
+        self.found = set()
         self.fill_alts()
 
     def fill_alts(self):
@@ -175,6 +176,7 @@ class board(object):
             c = self.next.pop()
             if c.solve():
                 self.add_constraint(c)
+                self.found.add(c)
                 self.open.remove(c)
                 return len(self.open)
             else:
@@ -206,6 +208,7 @@ class board(object):
                         cell.val = val
                         self.add_constraint(cell) 
                         self.open.remove(cell)
+                        self.found.add(cell)
                         dbg( "Found cell by possiblity: row %s col %s val %s" % (cell.row, cell.col, cell.val))
                         return True
 
@@ -224,7 +227,7 @@ class board(object):
             
         return self.open[min_loc]
 
-    def solve(self, rlevel):
+    def solve(self, rlevel=10):
         self.pprint(self.rows)
         cont = True
         while cont:
@@ -245,6 +248,7 @@ class board(object):
                 cell.val = val
                 b.add_constraint(cell)
                 b.open.remove(cell)
+                b.found.add(cell)
                 dbg( "Solving Spec: possiblility %s, rlevel %s, pos: %s,%s" % (val,
                                                                                 rlevel,
                                                                                 cell.row,
@@ -252,10 +256,16 @@ class board(object):
                 if b.solve(rlevel-1):
                     dbg( "Solved using speculation")
                     self.rows = b.rows
+                    self.found.update(b.found)
                     return True
             
         dbg("Is Solved? %s" % self.solved())
         return self.solved()
+
+    def hint(self):
+        if self.solve():
+            return self.found.pop()
+        return None
         
 test1="""123456789
 456789123
@@ -377,3 +387,6 @@ if __name__=='__main__':
 #b.pprint(b.squares)
     b.solve(10)
     print b.dump()
+    print len(b.found)
+    cell = b.found.pop()
+    print "%d, %d, %d" %(cell.val, cell.row+1, cell.col+1)
