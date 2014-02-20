@@ -1,3 +1,13 @@
+#
+# A constraint based Soduku solver.  Written in anger 1/28/2011 in a
+# contest to see if I could write this faster than solving the puzzle
+# directly. turns out that this took about twice as long as doing one
+# puzzle.
+# 
+# Eric Soroos 2011-2014
+# 
+# undone - tests in test.py 
+
 import itertools
 
 cardinality = 3

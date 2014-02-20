@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import web
 import cgi
 import so
