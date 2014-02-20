@@ -46,13 +46,31 @@ returns
 
 or sms to %s:
 help, 
-solve,
-or hint 
+
+solve
+....3....
+2.......3
+..52.86..
+...4.1...
+.946.753.
+..6...8..
+.57.2.46.
+..3...7..
+.825.439.
+
+or 
+hint 
+....3....
+2.......3
+..52.86..
+...4.1...
+.946.753.
+..6...8..
+.57.2.46.
+..3...7..
+.825.439.
  
-..1.....
-
-
-
+</pre>
 """ % PHONE_NUM
 
 client = twilio.rest.TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
