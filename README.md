@@ -22,7 +22,21 @@ solve
 .825.439.
 ```
 
+
+
 Will return the solved board to you via sms. 
+
+```
+841936257
+269745183 
+735218649 
+328451976 
+194687532 
+576392814 
+957123468 
+413869725 
+682574391
+```
 
 Similarly, 
 ```
@@ -39,6 +53,8 @@ hint
 ```
 
 Will give you one randomly chosen hint from one solution of the board. 
+
+`Try 5 at row 2 and column 6`
 
 Note that the solver uses just enough brute force to solve the puzzle,
 but not enough to determine if there are multiple solutions.
