@@ -136,10 +136,16 @@ class board(object):
         #self.pprint(self.cols)
         #self.pprint(self.squares)
 
+
+    def pprint_row(self, row):
+        return "%s  %s  %s" %(row[:3], row[3:6], row[6:])
+
     def pprint(self, arr):
-        for row in arr:
-            dbg( "%s   %s" %(" ".join([c.pprint() for c in row]),
-                                      " ".join([str(c.dof()) for c in row])))
+        for i,row in enumerate(arr):
+            dbg( "%s   %s" %(self.pprint_row("".join([c.pprint() for c in row])),
+                             self.pprint_row("".join([str(c.dof()) for c in row]))))
+            if (i+1)%3 == 0:
+                dbg('')
         dbg('')
 
 
