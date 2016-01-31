@@ -22,7 +22,8 @@ class ping(object):
     def POST(self):
         return self.usage
 
-    usage = """<pre>Soduku solver: POST your board to /solve:
+    usage = """<pre>Soduku solver: 
+POST your board to /solve or /hint:
 ....3....
 2.......3
 ..52.86..
@@ -45,8 +46,13 @@ returns
 413869725
 682574391
 
-or sms to %s:
-help, 
+or 
+Try 8 at row 1, column 1
+
+or 
+
+SMS to %s:
+usage, 
 
 solve
 ....3....
