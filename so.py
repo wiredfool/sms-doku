@@ -78,7 +78,11 @@ class board(object):
 
     def __init__(self, initial):
         self.rows = []
-        initial = initial.replace('\n','')[:81]
+        if '\n' in initial:
+            # assume \n is a better marker of EOL than trailing whitespace
+            initial = initial.replace('\r', '')
+            lines = initial.split('\n')
+            initial = "".join("%-9s" % l for l in lines)
 
         while initial:
             line = initial[:9]
